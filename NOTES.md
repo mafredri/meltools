@@ -31,9 +31,9 @@ atpp
 ```
 ./meltelnet 192.168.1.100
 Connected to 192.168.1.100:23
-debug enable
-log start
 log info
+0/100,0x6C,0x00
+log start
 log level=0xff
 log type=0xff
 2001/01/01_00:11:59 [Ea]HTTPC serverSignalSendMain_fd httpc_getResponsePoll ERROR(2)
@@ -57,10 +57,9 @@ Restore original logging settings:
 log level=0x6c
 log type=0x00
 log stop
-debug disable
 ```
 
-(I didn't test if `debug enable/disable` is needed, but it doesn't hurt.)
+The `log start/stop` doesn't seem to be needed, but it doesn't hurt to have it.
 
 ## Enable ECHONET
 
