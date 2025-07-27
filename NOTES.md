@@ -1,3 +1,69 @@
+# Notes
+
+## Known commands
+
+```
+p
+ip
+debug enable
+debug disable
+debug info
+debug clear
+debug reset
+log start
+log stop
+log get
+log level
+log type
+log status
+antenna_info
+atws
+resolve
+flash erase
+flash write
+flash sector read
+flash sector write
+atpp
+```
+
+## Enable debug logging
+
+```
+./meltelnet 192.168.1.100
+Connected to 192.168.1.100:23
+debug enable
+log start
+log info
+log level=0xff
+log type=0xff
+2001/01/01_00:11:59 [Ea]HTTPC serverSignalSendMain_fd httpc_getResponsePoll ERROR(2)
+2001/01/01_00:11:59 [Ea]HTTPC ERROR
+2001/01/01_00:11:59 [Ip]task_netctrl_udprecv_fv (594):exit recvfrom=32
+2001/01/01_00:11:59 [Ip]task_netctrl_udprecv_fv (591):enter recvfrom
+2001/01/01_00:11:59 [Ii]FC 42 1 30 10 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+2001/01/01_00:11:59 [Ip]task_netctrl_udprecv_fv (594):exit recvfrom=14
+2001/01/01_00:11:59 [Ip]task_netctrl_udprecv_fv (591):enter recvfrom
+2001/01/01_00:11:59 [Ip]task_netctrl_udprecv_fv (591):enter recvfrom
+2001/01/01_00:12:00 [Ii]FC 42 1 30 10 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+2001/01/01_00:12:00 [Ii]FC 62 1 30 10 6 0 0 0 [CENSORED]
+2001/01/01_00:12:00 [Da]led_prictrl_log_fv (256):LED_STATUS_SV_SYNCHRO( 3):OFF
+2001/01/01_00:12:00 [Ii]FC 42 1 30 10 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+2001/01/01_00:12:00 [Da]led_prictrl_log_fv (256):LED_STATUS_SV_SYNCHRO( 3):ON
+```
+
+Restore original logging settings:
+
+```
+log level=0x6c
+log type=0x00
+log stop
+debug disable
+```
+
+(I didn't test if `debug enable/disable` is needed, but it doesn't hurt.)
+
+## Enable ECHONET
+
 Enable ECHONET by sending `ECHONET: "ON"` in the CSV data.
 
 ```
