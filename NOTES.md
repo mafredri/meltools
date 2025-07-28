@@ -2,29 +2,34 @@
 
 ## Known commands
 
-```
-p
-ip
-debug enable
-debug disable
-debug info
-debug clear
-debug reset
-log start
-log stop
-log get
-log level
-log type
-log status
-antenna_info
-atws
-resolve
-flash erase
-flash write
-flash sector read
-flash sector write
-atpp
-```
+| Command              | Description                                                                  | Usage                                  |
+| -------------------- | ---------------------------------------------------------------------------- | -------------------------------------- |
+| `p`                  | Process list and memory consumption                                          | `p`                                    |
+| `ip`                 | Show IP configuration (IP, GW, MASK, MAC)                                    | `ip`                                   |
+| `resolve`            | Resolve hostname, dumps a `hostent` struct                                   | `resolve=domain.com`                   |
+| `debug enable`       | Enable debug mode                                                            | `debug enable`                         |
+| `debug disable`      | Disable debug mode                                                           | `debug disable`                        |
+| `debug info`         | Show debug info (e.g. model, firmware, boot, etc.)                           | `debug info`                           |
+| `debug clear`        | Clear debug mode                                                             | `debug clear`                          |
+| `debug reset`        | Reset debug mode                                                             | `debug reset`                          |
+| `log start`          | Start log capture                                                            | `log start`                            |
+| `log stop`           | Stop log capture                                                             | `log stop`                             |
+| `log get`            | Print captured logs                                                          | `log get`                              |
+| `log level`          | Set log level filter (default: `0x6c` = `0b1101100`, i.e. 3 levels excluded) | `log level=0xff`                       |
+| `log type`           | Set log type filter (default: `0x00` = no logs)                              | `log type=0xff`                        |
+| `log status`         | Show log status (`0/100,0x6C,0x00` = `[captured/limit],[level],[type]`)      | `log status`                           |
+| `antenna_info`       | Show antenna info (shows `0:main antenna`)                                   | `antenna_info`                         |
+| `atpp`               | Ping utility, enter `atpp` for help                                          | `atpp=192.168.1.1,-n,1`                |
+| `atws`               | WiFi scan, outputs all SSIDs seen by the adapter                             | `atws`                                 |
+| `flash erase`        | Erase flash memory (untested, likely DANGEROUS!)                             |                                        |
+| `flash write`        | Write to flash (untested, likely DANGEROUS!)                                 |                                        |
+| `flash sector read`  | Read flash sectors (128 bytes per count)                                     | `flash sector read=[hex addr],[count]` |
+| `flash sector write` | Write flash sector (untested, likely DANGEROUS!)                             |                                        |
+| `db`                 | (unknown/undocumented)                                                       |                                        |
+| `mb`                 | (unknown/undocumented)                                                       |                                        |
+| `iwpriv`             | (unknown/undocumented)                                                       |                                        |
+
+(There are likely some additional commands, but I have not explored those as many cause the telnet connection to break.)
 
 ## Enable debug logging
 
@@ -33,7 +38,6 @@ atpp
 Connected to 192.168.1.100:23
 log info
 0/100,0x6C,0x00
-log start
 log level=0xff
 log type=0xff
 2001/01/01_00:11:59 [Ea]HTTPC serverSignalSendMain_fd httpc_getResponsePoll ERROR(2)
@@ -56,10 +60,9 @@ Restore original logging settings:
 ```
 log level=0x6c
 log type=0x00
-log stop
 ```
 
-The `log start/stop` doesn't seem to be needed, but it doesn't hurt to have it.
+The `log start/stop/get` can be used to capture and buffer up to 100 log entries, but it seems pointless since the logs are printed in real-time.
 
 ## Enable ECHONET
 
