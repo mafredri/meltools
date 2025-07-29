@@ -92,7 +92,9 @@ func decodeESV(esv string, key []byte) ([]byte, error) {
 
 type CSV struct {
 	XMLName xml.Name `xml:"CSV"`
-	CONNECT string   `xml:"CONNECT,omitempty"`
+	Connect string   `xml:"CONNECT,omitempty"`
+	Reset   string   `xml:"RESET,omitempty"`
+	Code    []string `xml:"CODE>VALUE,omitempty"`
 	ECHONET string   `xml:"ECHONET,omitempty"`
 }
 
@@ -103,7 +105,9 @@ type ESV struct {
 
 func main() {
 	key := flag.String("key", "unregistered", "AES key")
-	echonet := flag.Bool("enable-echonet", false, "Enable ECHONET (default false)")
+	reset := flag.Bool("reset", false, "Reset the device (default false)")
+	echonetOn := flag.Bool("enable-echonet", false, "Enable ECHONET (default false)")
+	echonetOff := flag.Bool("disable-echonet", false, "Disable ECHONET (default false)")
 	flag.Usage = func() {
 		fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s [options] <host>\n", os.Args[0])
 		flag.PrintDefaults()
@@ -116,9 +120,15 @@ func main() {
 	}
 	host := flag.Arg(0)
 
-	csv := CSV{CONNECT: "ON"}
-	if *echonet {
+	csv := CSV{Connect: "ON"}
+	if *reset {
+		csv.Reset = "ON"
+	}
+	if *echonetOn {
 		csv.ECHONET = "ON"
+	}
+	if *echonetOff {
+		csv.ECHONET = "OFF"
 	}
 
 	// Marshal CSV request and encrypt it into ESV local command.
